@@ -6,16 +6,15 @@ import { projects } from "./index";
 
 export default function Route() {
   const router = useRouter();
-  const select = projects.filter((x) => x.slug === router.query.project)[0];
+  const select = projects.filter((x) => x.slug === router.query.project);
 
-  console.log(select[0]);
   return (
     <div>
       <section style={{
         padding: "3rem",
       }}>
         <div className="container">
-            <h1>{select.title}</h1>
+            <h1>{select[0]?.title}</h1>
         </div>
       </section>
       <section
@@ -35,7 +34,7 @@ export default function Route() {
             overflow: "hidden",
             opacity: 0.5,
           }}
-          src={select.image}
+          src={select[0]?.image}
         />
       </section>
     </div>
