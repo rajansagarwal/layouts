@@ -1,14 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;0,6..72,800;1,6..72,200;1,6..72,300;1,6..72,400;1,6..72,500;1,6..72,600;1,6..72,700&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,800&display=swap');
+* {
+  font-family: 'Raleway', sans-serif;
+}
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.5;
-  background: rgb(28, 26, 23);
+  cursor: crosshair;
+  background: black;
+  color: white;
 }
 
 main {
@@ -21,5 +22,102 @@ main {
 
 h1 {
   display: inline-block;
-  font-size: 1.5em;
+  font-size: 2em;
+  font-family: 'Raleway', sans-serif;
+  line-height: 1.3em;
+}
+
+.image-scroll span {
+  cursor: pointer;
+}
+
+.x-mobile {
+  display: grid;
+}
+
+.year {
+  flex-basis: 2%;
+}
+
+.big-flex {
+  display: flex;
+  justify-content: space-bewteen;
+  padding: 3rem;
+  align-items: left;
+  gap: 4rem;
+  z-index: 999;
+  position: fixed;
+  background-color: black;
+}
+
+.bottom-flex {
+  padding: 45vh 2rem 0 2rem;
+  position: absolute;
+  width: 96vw;
+  z-index: 5;
+}
+
+.name-property {
+  flex-basis: 20%;
+}
+
+.text-header {
+  flex-basis: 50%
+}
+
+hr {
+  padding: 0;
+  margin: 0;
+}
+
+.indices {
+  position: fixed;
+}
+
+@media (max-width: 1000px) {
+  .x-mobile {
+    display: none;
+  }
+
+  .year {
+    flex-basis: 2%;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  .big-flex {
+    position: relative;
+    background: none;
+    background-color: none;
+    padding: 2rem;
+  }
+
+  .bottom-flex {
+    position: relative;
+    padding: 0 0 0 0;
+    width: 100vw;
+
+  }
+
+  .indices {
+    position: relative;
+  }
+
+  .name-property {
+    flex-basis: 90%;
+  }
+
+}
+
+
+@media (max-width: 1300px) {
+  .big-flex {
+    flex-direction: column;
+  }
+
+  .text-header {
+    flex-basis: 100%;
+  }
 }

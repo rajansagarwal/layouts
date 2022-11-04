@@ -1,132 +1,108 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Blog from "./writings";
 import Image from "next/image";
 const AirtablePlus = require("airtable-plus");
+import { useRouter, withRouter } from "next/router";
 
-const callouts = [
+export const projects = [
   {
-    name: "Etherealism (Poem Synthesis & Visualization)",
-    description: "Generative Art Model with Poetry NLP",
-    imageSrc: "https://file.rajanagarwal.xyz/image-grid.jpg",
-    imageAlt: "etheralism.",
-    href: "https://github.com/rajanagarwal/etherealism",
+    title: "Ethereal Art",
+    type: "Technical",
+    description: "Blazing fast poetry-to-image model",
+    link: "https://www.google.com",
+    image: "https://file.rajanagarwal.xyz/generated.png",
+    year: "2022",
+    accent: "white",
+    slug: "ethereal",
+    setting: "Research",
   },
   {
-    name: "ConnexSci (Hack the North 2022 Finalist)",
-    description: "Graph models for Accessible Research Funding",
-    imageSrc: "https://file.rajanagarwal.xyz/connexsci.png",
-    imageAlt: "connexsci.",
-    href: "https://devpost.com/software/connexsci-20nrjy",
+    title: "ConnexSci",
+    type: "Technical",
+    description: "Graph models for accessible research funding",
+    link: "https://www.google.com",
+    image: "https://file.rajanagarwal.xyz/connexsci.png",
+    year: "2022",
+    accent: "white",
+    slug: "connexsci",
+    setting: "Hack the North 2022",
   },
   {
-    name: "Camp Social (SWE Summer 2022)",
-    description: "Incentivizing & Humanizing Digital Communities",
-    imageSrc: "https://file.rajanagarwal.xyz/cs-landing.png",
-    imageAlt: "camp social.",
-    href: "https://camp.social",
+    title: "Camp Social",
+    type: "Technical",
+    description: "Incentivising & Humanizing Digital Communities",
+    link: "https://www.google.com",
+    image: "https://file.rajanagarwal.xyz/cs-landing.png",
+    year: "2022",
+    accent: "white",
+    slug: "camp-social",
+    setting: "Internship",
   },
   {
-    name: "Bloom (Data Aggregation)",
-    description: "Decentralized Medical Network",
-    imageSrc:
-      "https://cloud-cssrzjtwc-hack-club-bot.vercel.app/0screen_shot_2022-03-11_at_8.53.59_pm.png",
-    imageAlt: "bloom network.",
-    href: "https://github.com/rajanwastaken/bloom",
-  },
-  {
-    name: "Hestia (UTH Hacks Winner)",
-    description: "Indigenous Pipeline Infrastructure",
-    imageSrc:
-      "https://cloud-ra5alevdj-hack-club-bot.vercel.app/0screen_shot_2022-03-11_at_8.56.49_pm.png",
-    imageAlt: "project hestia",
-    href: "https://youtu.be/inOwByW_ufs",
-  },
-  {
-    name: "Club Network (TFSS)",
+    title: "tfss.club",
+    type: "Technical",
     description: "School-wide Club Management",
-    imageSrc: "https://file.rajanagarwal.xyz/tfssclub.png",
-    imageAlt: "club.",
-    href: "",
+    link: "https://www.google.com",
+    image: "https://file.rajanagarwal.xyz/tfssclub.png",
+    year: "2022",
+    accent: "white",
+    slug: "tfssclub",
+    setting: "Platform",
   },
   {
-    name: "Encryption Algorithms (Live Workshop)",
-    description: "Custom Blockchain in 100 Lines",
-    imageSrc: "https://file.rajanagarwal.xyz/workshop.png",
-    imageAlt: "project hestia",
-    href: "https://www.youtube.com/watch?v=3HZJ7ZoQIUE&ab_channel=RajanAgarwal",
-  },
-  {
-    name: "Hack Club Apply (OSS Contractor)",
-    description: "Application Portal for Hack Club",
-    imageSrc: "https://file.rajanagarwal.xyz/apply.png",
-    imageAlt: "apply.",
-    href: "https://apply.hackclub.com",
-  },
-  {
-    name: "Reconciliation (7000+ Viewers)",
-    description: "160km Run For Hope",
-    imageSrc: "https://cloud-e9m8zg3xl-hack-club-bot.vercel.app/0image.png",
-    imageAlt: "run for hope.",
-    href: "https://run.heyrajan.com",
-  },
-
-  {
-    name: "Blind Spot (Assemble 2022)",
-    description: "Manipulating Google Search",
-    imageSrc: "https://file.rajanagarwal.xyz/blindspot.png",
-    imageAlt: "project hestia",
-    href: "https://github.com/rajanwastaken/blind-spot",
-  },
-  {
-    name: "Children's Novel (100+ Digital Copies)",
-    description: "Autism Awareness",
-    imageSrc: "https://cloud-16c6pal7a-hack-club-bot.vercel.app/0bookpost.png",
-    imageAlt: "breaking barriers.",
-    href: "",
-  },
-  {
-    name: "Gamifying Political Awareness (Hack the North 2021)",
-    description: "Policy Chat Rooms",
-    imageSrc:
-      "https://user-images.githubusercontent.com/64426829/133933404-ff1e8f03-f689-4fba-a43a-bb1a4766540d.png",
-    imageAlt: "project hestia",
-    href: "https://github.com/diplomatica-htn",
+    title: "Application Portal",
+    type: "Technical",
+    description: "New application portal for Hack Club",
+    link: "https://www.google.com",
+    image: "https://file.rajanagarwal.xyz/apply.png",
+    year: "2022",
+    accent: "white",
+    slug: "hackclub-apply",
+    setting: "Contract",
   },
 ];
 
-const product = {
-  images: [
-    {
-      src: "https://file.rajanagarwal.xyz/i-profile.jpg",
-      alt: "Two each of gray, white, and black shirts laying flat.",
-    },
-    {
-      src: "https://file.rajanagarwal.xyz/staywoke2.jpg",
-      alt: "Model wearing plain black basic tee.",
-    },
-    {
-      src: "https://file.rajanagarwal.xyz/ori3.png",
-      alt: "Model wearing plain gray basic tee.",
-    },
-    {
-      src: "https://file.rajanagarwal.xyz/clock.jpg",
-      alt: "Model wearing plain white basic tee.",
-    },
-  ],
-  description:
-    "i'm a 16 year old developer, author and researcher based in toronto. i'm rebuilding patient data aggregation & poetic expression through generative art. in my free time, i explore evolutionary game theory, actuarial science and political science.",
-};
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+const news = [
+  {
+    title: "University of British Columbia",
+    type: "Canada",
+    image: "https://file.rajanagarwal.xyz/eee.jpg",
+    year: "2021",
+    accent: "white",
+  },
+  {
+    title: "Arc de Triomphe de l'Etoile",
+    type: "France",
+    image: "https://file.rajanagarwal.xyz/aaa.jpg",
+    year: "2021",
+    accent: "white",
+  },
+  {
+    title: "That Fresh Fall Feelin'",
+    type: "🐶",
+    image: "https://file.rajanagarwal.xyz/bbb.jpg",
+    year: "2021",
+    accent: "white",
+  },
+  {
+    title: "University of British Columbia",
+    type: "Canada",
+    image: "https://file.rajanagarwal.xyz/ddd.jpg",
+    year: "2021",
+    accent: "rgb(30, 30, 30)",
+  },
+];
 
 export default function Example() {
   const [status, setStatus] = useState(0);
+  const [scrollIndex, setScrollIndex] = useState(0);
+  const [hovered, setHovered] = useState(null);
+  const [accent, setAccent] = useState("white");
 
-  const communityAirtable = new AirtablePlus({
+  const router = useRouter();
+
+  /*const communityAirtable = new AirtablePlus({
     baseID: process.env.NEXT_PUBLIC_BASEID,
     apiKey: process.env.NEXT_PUBLIC_AIRTABLE,
     tableName: "Meta",
@@ -156,189 +132,252 @@ export default function Example() {
   useEffect(() => {
     fetchData();
     updateCount();
-  }, []);
+  }, []);*/
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      {
+        scrollIndex !== news.length - 1
+          ? setScrollIndex(scrollIndex + 1)
+          : setScrollIndex(0);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [scrollIndex]);
 
   return (
-    <div className="bg-black">
-      <Head>
-        <title>rajan.</title>
-      </Head>
+    <div>
+      <section className="big-flex">
+        <div className="text-header">
+          <h1
+            style={{
+              fontWeight: "300",
+              marginBottom: 0,
+            }}
+          >
+            <b>Rajan Agarwal</b> is a software developer crafting, designing &
+            engineering high-scale systems. His passion for software is rooted
+            in his interest of building platforms and infrastructure that can be
+            used by millions of people. Previously, he built Connex and worked
+            at Hack Club & Camp Social. Now, he is building better cities with
+            Arterial.
+          </h1>
+          <p>index — story — about — contact</p>
+        </div>
+        <div
+          className="image-scroll"
+          style={{
+            alignItems: "right",
+          }}
+        >
+          <Image
+            width={800}
+            height={350}
+            layout="intrinsic"
+            objectFit="cover"
+            src={
+              hovered !== null
+                ? projects[hovered].image
+                : news[scrollIndex].image
+            }
+          />
+          <br />
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              <span
+                onClick={() =>
+                  scrollIndex !== 0
+                    ? setScrollIndex(scrollIndex - 1)
+                    : setScrollIndex(news.length - 1)
+                }
+              >
+                ←
+              </span>{" "}
+              <span
+                onClick={() =>
+                  scrollIndex !== news.length - 1
+                    ? setScrollIndex(scrollIndex + 1)
+                    : setScrollIndex(0)
+                }
+              >
+                →
+              </span>{" "}
+            </div>
+            <>
+              {hovered !== null
+                ? projects[hovered].title
+                : news[scrollIndex].title}{" "}
+              (
+              {hovered !== null
+                ? projects[hovered].type
+                : news[scrollIndex].type}
+              )
+            </>
+          </div>
+        </div>
+      </section>
+      <section className="bottom-flex">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "left",
+            fontWeight: "600",
+            fontSize: "1rem",
+            width: "96vw",
+            background: "rgba(0, 0, 0, 0.2)",
+            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+            backdropFilter: "blur(2px)",
+            WebkitBackdropFilter: "blur(2px)",
+          }}
+          className="indices"
+        >
+          <div
+            className="name-property"
+            style={{
+              padding: "0.7rem 0.5rem",
+            }}
+          >
+            Name
+          </div>
+          <div
+            style={{
+              flexBasis: "30%",
+              padding: "0.7rem 0.5rem",
+            }}
+            className="x-mobile"
+          >
+            Description
+          </div>
+          <div
+            style={{
+              flexBasis: "20%",
+              color: accent,
+              padding: "0.7rem 0.5rem",
+            }}
+            className="x-mobile"
+          >
+            Type
+          </div>
+          <div
+            style={{
+              flexBasis: "25%",
+              color: accent,
+              padding: "0.7rem 0.5rem",
+            }}
+            className="x-mobile"
+          >
+            Setting
+          </div>
+          <div
+            style={{
+              flexBasis: "2%",
+              color: accent,
+              padding: "0.7rem 1rem",
+            }}
+            className="year"
+          >
+            Year
+          </div>
+        </div>
+        <div className="x-mobile">
+          <br />
+          <br />
+        </div>
+        <hr />
+        {projects.map((item, index) => {
+          return (
+            <div key={index}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "left",
+                  fontSize: "1rem",
+                  margin: 0,
+                  cursor: "pointer",
+                }}
+                onMouseEnter={() => (setHovered(index), setAccent(item.accent))}
+                onMouseLeave={() => (setHovered(null), setAccent(null))}
+                onClick={() => router.push(`/${item.slug}`)}
+              >
+                <div
+                  className="name-property"
+                  style={{
+                    padding: "0.7rem 0.5rem",
+                  }}
+                >
+                  {item.title}
+                </div>
+                <div
+                  style={{
+                    flexBasis: "30%",
+                    padding: "0.7rem 0.5rem",
+                  }}
+                  className="x-mobile"
+                >
+                  {item.description}
+                </div>
+                <div
+                  style={{
+                    flexBasis: "20%",
+                    color: accent,
+                    padding: "0.7rem 0.5rem",
+                  }}
+                  className="x-mobile"
+                >
+                  {item.type}
+                </div>
+                <div
+                  style={{
+                    flexBasis: "25%",
+                    color: accent,
+                    padding: "0.7rem 0.5rem",
+                  }}
+                  className="x-mobile"
+                >
+                  {item.setting}
+                </div>
+                <div
+                  style={{
+                    flexBasis: "2%",
+                    padding: "0.7rem 1rem",
+                    color: accent,
+                  }}
+                  className="year"
+                >
+                  {item.year}
+                </div>
+              </div>
+              <hr />
+            </div>
+          );
+        })}
+      </section>
       <div
         style={{
           position: "fixed",
-          fontSize: "15px",
-          left: "20px",
-          bottom: "20px",
-          color: "white",
+          right: 0,
+          top: 0,
+          float: "right",
         }}
       >
-        {status}
-      </div>
-      <div className="lg:pt-6">
-        {/* Image gallery */}
-        <div className="lg:mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8 sm:hidden">
-          <div className="hidden aspect-w-3 aspect-h-4 lg:block">
+        {hovered !== null ? (
+          <>
             <Image
-              src={product.images[0].src}
-              alt={product.images[0].alt}
-              width="640"
-              height="900"
-              className="w-full h-full object-center object-cover rounded-lg"
+              width={880}
+              height={1100}
+              layout="fill"
+              objectFit="cover"
+              style={{
+                zIndex: -999,
+                overflow: "hidden",
+                opacity: 0.5,
+              }}
+              src={projects[hovered].image}
             />
-          </div>
-          <div
-            className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8"
-            style={{ border: "1px solid black" }}
-          >
-            <div className="aspect-w-3 aspect-h-2">
-              <Image
-                src={product.images[1].src}
-                alt={product.images[1].alt}
-                width="640"
-                height="419"
-                className="w-full h-full object-center object-cover rounded-lg"
-              />
-            </div>
-            <div className="aspect-w-3 aspect-h-2">
-              <Image
-                src={product.images[2].src}
-                alt={product.images[2].alt}
-                width="640"
-                height="419"
-                className="w-full h-full object-center object-cover rounded-lg"
-              />
-            </div>
-          </div>
-          <div className="hidden aspect-w-3 aspect-h-4 lg:block">
-            <Image
-              src={product.images[3].src}
-              alt={product.images[3].alt}
-              width="640"
-              height="900"
-              className="w-full h-full object-center object-cover rounded-lg"
-            />
-          </div>
-        </div>
-
-        {/* Product info */}
-        <div className="max-w-2xl mx-auto pt-10 pb-8 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-8 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
-          <div className="lg:col-span-2 lg:border-r lg:border-gray-800 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-100 sm:text-3xl">
-              rajan agarwal.
-            </h1>
-            <div className="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:pr-8">
-              <div>
-                <div className="space-y-6">
-                  <p className="text-base text-gray-200">
-                    Seeking serendipity in code, craft & curiosity. <br />
-                    Designing & engineering high-scale communities. <br />
-                    Meeting wonderful people along the way.
-                    <br />
-                    <br />
-                    Currently, I&#39;m building ConnexSci to make research
-                    accessible and open to funding in the public sector. On the
-                    side, I&#39;m working at JEC Toronto (COO), ChoiceDAO (Core)
-                    and Cobweb (Researcher). Previously, I worked at Camp Social
-                    as a Software Engineer Intern.
-                    <br />
-                    <br />
-                    In my free time, I enjoy writing and spending time outdoors.
-                    I&#39;m currently writing a novel, The Platonist, and
-                    playing competitive golf, tennis and long distance running.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Options */}
-          <div className="mt-4 lg:mt-0 lg:row-span-3">
-            <div className="mt-6 text-gray-200">
-              <p className="text-lg text-gray-200 py-2">
-                <em>
-                  People grow old only by deserting their ideals. <br />
-                  <br />
-                  Worry, doubt, self-distrust and fear; these are the long years
-                  that bow the head and turn the growing spirit back to dust.{" "}
-                  <br />
-                  <br />
-                  Whatever the years, there is in every being the love of
-                  wonder, the undaunted challenge of events, the unfailing
-                  childlike appetite for what next, and the joy in the game of
-                  life.
-                </em>
-              </p>
-            </div>
-
-            {/* Reviews 
-            <p className="text-2xl text-gray-100 font-bold hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
-              latest
-            </p>
-            <div className="mt-6 text-gray-200">
-              <p className="text-lg text-gray-200 pb-1">
-                <Link href="writings/soulbound">blind spot (bs)</Link>
-              </p>
-              <p className="text-md text-gray-300 pb-6">
-                What if the world around us, and the things we do, could be
-                soulbound?
-              </p>
-
-              <p className="text-lg text-gray-200 pb-1">
-                <Link href="writings/surveillance-capitalism">
-                  surveillance capitalism.
-                </Link>
-              </p>
-              <p className="text-md text-gray-300 pb-6">
-                How do we as ordinary people, take our self-determination back?
-              </p>
-
-              <p className="text-lg text-gray-200 pb-1">
-                <Link href="writings/ethnocentrism">ethnocentrism.</Link>
-              </p>
-              <p className="text-md text-gray-300 pb-6">
-                The contextual debate of universalism vs relativism.
-              </p>
-  </div>*/}
-          </div>
-        </div>
+          </>
+        ) : null}
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto py-3 sm:py-3 lg:py-3 lg:max-w-none">
-          <h2 className="text-2xl font-bold text-gray-200">highlighted work</h2>
-          <br />
-
-          <div className="mt-3 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-6">
-            {callouts.map((callout) => (
-              <div key={callout.name} className="group relative">
-                <div className="relative bg-white rounded-lg overflow-hidden group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
-                  <Image
-                    src={callout.imageSrc}
-                    alt={callout.imageAlt}
-                    width="700"
-                    height="480"
-                    className="w-full h-full object-center object-cover"
-                  />
-                </div>
-                <h3 className="mt-4 text-sm text-gray-400">
-                  <a href={callout.href}>
-                    <span className="absolute inset-0" />
-                    {callout.name}
-                  </a>
-                </h3>
-                <p className="text-base font-semibold text-gray-200">
-                  {callout.description}
-                </p>
-                <br />
-                <br />
-              </div>
-            ))}
-          </div>
-          <p style={{ color: 'white', textAlign: 'center' }}><a href="https://twitter.com/rajanwastaken" rel="noreferrer" target="_blank">twitter</a> | <a href="https://github.com/rajanwastaken" target="_blank" rel="noreferrer">github</a> | <a href="https://instagram.com/rajanwastaken" target="_blank" rel="noreferrer">instagram</a> | <a href="https://linkedin.com/in/rajansagarwal" target="_blank" rel="noreferrer">linkedin</a> | <a href="mailto:rajan.ag005@gmail.com" target="_blank" rel="noreferrer">email</a></p><br/>
-        </div>
-      </div>
-      {/*
-      <Blog />
-            */}
     </div>
   );
 }
