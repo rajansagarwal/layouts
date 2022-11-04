@@ -160,8 +160,7 @@ export default function Example() {
             engineering high-scale systems. His passion for software is rooted
             in his interest of building platforms and infrastructure that can be
             used by millions of people. Previously, he built Connex and worked
-            at Hack Club & Camp Social. Now, he is building better cities with
-            Arterial.
+            at Hack Club & Camp Social.
           </h1>
           <p>index — story — about — contact</p>
         </div>
