@@ -121,3 +121,12 @@ hr {
     flex-basis: 100%;
   }
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 1vw;
+  margin-left: 4vw;
+  margin-right: 4vw;
+  width: 100%;
+}

@@ -145,7 +145,7 @@ export default function Example() {
 
     return () => clearTimeout(timeout);
   }, [scrollIndex]);
-
+   
   return (
     <div>
       <section className="big-flex">
@@ -209,7 +209,7 @@ export default function Example() {
                 : news[scrollIndex].title}{" "}
               (
               {hovered !== null
-                ? projects[hovered].type
+                ? projects[hovered].setting
                 : news[scrollIndex].type}
               )
             </>
@@ -286,14 +286,16 @@ export default function Example() {
         <hr />
         {projects.map((item, index) => {
           return (
-            <div key={index}>
+            <div
+              key={index}
+            >
               <div
                 style={{
                   display: "flex",
                   alignItems: "left",
                   fontSize: "1rem",
                   margin: 0,
-                  cursor: "pointer",
+                  cursor: 'pointer',
                 }}
                 onMouseEnter={() => (setHovered(index), setAccent(item.accent))}
                 onMouseLeave={() => (setHovered(null), setAccent(null))}
