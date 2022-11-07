@@ -7,9 +7,9 @@
 body {
   margin: 0;
   line-height: 1.5;
-  cursor: crosshair;
   background: black;
   color: white;
+  cursor: crosshair;
 }
 
 main {
@@ -46,12 +46,11 @@ h1 {
   align-items: left;
   gap: 4rem;
   z-index: 999;
-  position: fixed;
   background-color: black;
 }
 
 .bottom-flex {
-  padding: 45vh 2rem 0 2rem;
+  padding: 2rem 2rem 0 2rem;
   position: absolute;
   width: 96vw;
   z-index: 5;
@@ -68,10 +67,6 @@ h1 {
 hr {
   padding: 0;
   margin: 0;
-}
-
-.indices {
-  position: fixed;
 }
 
 @media (max-width: 1000px) {
@@ -96,8 +91,8 @@ hr {
 
   .bottom-flex {
     position: relative;
-    padding: 0 0 0 0;
-    width: 100vw;
+    padding: 0 2vw;
+    width: 96vw;
 
   }
 

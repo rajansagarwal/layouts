@@ -145,7 +145,7 @@ export default function Example() {
 
     return () => clearTimeout(timeout);
   }, [scrollIndex]);
-   
+
   return (
     <div>
       <section className="big-flex">
@@ -224,17 +224,12 @@ export default function Example() {
             fontWeight: "600",
             fontSize: "1rem",
             width: "96vw",
-            background: "rgba(0, 0, 0, 0.2)",
-            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-            backdropFilter: "blur(2px)",
-            WebkitBackdropFilter: "blur(2px)",
           }}
-          className="indices"
         >
           <div
             className="name-property"
             style={{
-              padding: "0.7rem 0.5rem",
+              padding: "0.5rem 0.5rem",
             }}
           >
             Name
@@ -242,7 +237,7 @@ export default function Example() {
           <div
             style={{
               flexBasis: "30%",
-              padding: "0.7rem 0.5rem",
+              padding: "0.5rem 0.5rem",
             }}
             className="x-mobile"
           >
@@ -252,7 +247,7 @@ export default function Example() {
             style={{
               flexBasis: "20%",
               color: accent,
-              padding: "0.7rem 0.5rem",
+              padding: "0.5rem 0.5rem",
             }}
             className="x-mobile"
           >
@@ -262,7 +257,7 @@ export default function Example() {
             style={{
               flexBasis: "25%",
               color: accent,
-              padding: "0.7rem 0.5rem",
+              padding: "0.5rem 0.5rem",
             }}
             className="x-mobile"
           >
@@ -270,32 +265,25 @@ export default function Example() {
           </div>
           <div
             style={{
-              flexBasis: "2%",
               color: accent,
-              padding: "0.7rem 1rem",
+              padding: "0.5rem 0",
             }}
             className="year"
           >
             Year
           </div>
         </div>
-        <div className="x-mobile">
-          <br />
-          <br />
-        </div>
         <hr />
         {projects.map((item, index) => {
           return (
-            <div
-              key={index}
-            >
+            <div key={index}>
               <div
                 style={{
                   display: "flex",
                   alignItems: "left",
                   fontSize: "1rem",
                   margin: 0,
-                  cursor: 'pointer',
+                  cursor: "pointer",
                 }}
                 onMouseEnter={() => (setHovered(index), setAccent(item.accent))}
                 onMouseLeave={() => (setHovered(null), setAccent(null))}
@@ -304,7 +292,7 @@ export default function Example() {
                 <div
                   className="name-property"
                   style={{
-                    padding: "0.7rem 0.5rem",
+                    padding: "0.5rem 0.5rem",
                   }}
                 >
                   {item.title}
@@ -312,7 +300,7 @@ export default function Example() {
                 <div
                   style={{
                     flexBasis: "30%",
-                    padding: "0.7rem 0.5rem",
+                    padding: "0.5rem 0.5rem",
                   }}
                   className="x-mobile"
                 >
@@ -322,7 +310,7 @@ export default function Example() {
                   style={{
                     flexBasis: "20%",
                     color: accent,
-                    padding: "0.7rem 0.5rem",
+                    padding: "0.5rem 0.5rem",
                   }}
                   className="x-mobile"
                 >
@@ -332,7 +320,7 @@ export default function Example() {
                   style={{
                     flexBasis: "25%",
                     color: accent,
-                    padding: "0.7rem 0.5rem",
+                    padding: "0.5rem 0.5rem",
                   }}
                   className="x-mobile"
                 >
@@ -340,9 +328,8 @@ export default function Example() {
                 </div>
                 <div
                   style={{
-                    flexBasis: "2%",
-                    padding: "0.7rem 1rem",
                     color: accent,
+                    padding: "0.5rem 0",
                   }}
                   className="year"
                 >
